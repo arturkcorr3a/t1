@@ -6,18 +6,21 @@ public class Department{
 	private String name;
 	private ArrayList<Employee> employees;
 
+	public Department(String name, double maxValue){
+		this.employees = new ArrayList<Employee>();
+		this.name = name;
+		this.maxValue = maxValue;
+	}
+
 	public double getMaxValue() {
-		return 0;
+		return maxValue;
 	}
 
 	public String getName() {
-		return null;
-	}
-
-	public Department(String nome, double valorMax){
+		return name;
 	}
 
 	public ArrayList<Employee> getEmployees() {
-		return null;
+		return employees;
 	}
 }
