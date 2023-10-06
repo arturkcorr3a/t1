@@ -10,9 +10,9 @@ public abstract class User {
 		return inicials.toUpperCase();
 	}
 
-	//true: Employee; false: Admin
+	//false: Employee; true: Admin
 	public boolean type() {
-		if (this.id >= 5000) return true;
+		if (this.id <= 5000) return true;
 		return false;
 	}
 
