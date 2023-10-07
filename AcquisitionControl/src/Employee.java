@@ -9,6 +9,10 @@ public class Employee extends User {
 		User.id_aux = 0;
 	}
 
+	public Department getDepartment() {
+		return department;
+	}
+
 	@Override
 	public String toString(){
 		return super.toString() + " | Department: " + this.department;
