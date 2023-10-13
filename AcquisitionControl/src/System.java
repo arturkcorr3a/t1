@@ -1,12 +1,30 @@
 import java.util.ArrayList;
 
+/**
+ * Implements methods that manage the system
+ * @apiNote Without I/O; that must be done in de App.java class.
+ * @author Artur Kalil e Eduardo Martginoni
+ */
 public class System {
+
+//ENTRADA E SAÍDA DE DADOS SÓ NO APP!! 
+//REVISAR MÉTODOS PARA VER SE O USUÁRIO ATUAL É ADMIN NOS QUE TEM ESSA CARACTERÍSTICA
+//PENSAR NUMA SOLUÇÃO PRA DATA; CLASSE PRONTA? JÁ PEGARIA AUTOMATICAMENTE PELO HORÁRIO DO SISTEMA?
+// (PARECE MELHOR ALGO DO GÊNERO DO QUE DEIXAR COMO STRING)
+
+//NOTA PRO EDUARDO: depois que tu acabar a classe Order dá uma olhada nos métodos que retornam Order[]
+//					pra ver se eu não fiz bosta 
 
 	private ArrayList<User> users;
 	private Department[] departments;
 	private User currentUser;
 	private ArrayList<Order> orders;
 
+	/**
+	 * Constructor method for the System.
+	 * Inicializes the users, orders and departments arrays.
+	 * Creates 5 departments and 16 users.
+	 */
 	public System(){
 		users = new ArrayList<User>();
 		departments = new Department[5];
@@ -16,6 +34,9 @@ public class System {
 		this.currentUser = users.get(0);
 	}
 
+	/**
+	 * Inicializes the System with 16 users: 8 administrators and 8 employees.
+	 */
 	private void startUsers(){
 		for(int i=0; i<8; i++){
 			String name1 = "user" + (i+1);
@@ -37,16 +58,26 @@ public class System {
 		}
 	}
 
-	//REVISAR VALORES MÁXIMOS
+	//REVISAR VALORES MÁXIMOS DE CADA DEPARTAMENTO
+	/**
+	 * Inicializes the System with 5 departments.
+	 */
 	private void startDepartaments(){
+		departments[0] = new Department("Marketing", 800);
 		departments[1] = new Department("Finances", 1000);
 		departments[2] = new Department("Human Resources", 500);
 		departments[3] = new Department("Engeneering", 150000);
 		departments[4] = new Department("Maintance", 1200);
-		departments[0] = new Department("Finances", 800);
 	}
 
-	//IMPLEMENTAR DE MANEIRA QUE, AO FINAL, MOSTRE SE FOI REALIZADA A TROCA E OS USUÁRIOS ANTERIOR E NOVO
+	//IMPLEMENTAR NO APP DE MANEIRA QUE, AO FINAL, MOSTRE SE FOI REALIZADA A TROCA 
+	// E OS USUÁRIOS ANTERIOR E NOVO
+	/**
+	 * Login to another user, through it's id and inicials.
+	 * @param id ID of the logging user.
+	 * @param inicials First two letters of the logging user.
+	 * @return The logged out user or *null* if the login was unsuccessful.
+	 */
 	public User changeUser(int id, String inicials) {
 		for(int i=0; i<users.size(); i++){
 			User user = users.get(i);
@@ -59,58 +90,158 @@ public class System {
 		return null;
 	}
 
-	//ENTRADA DE DADOS NO APP SÓ
-	//IF TIPO = TRUE, CHAMA FUNCAO COM DEPARTMENT = NULL
-	//ELSE PEDE DEPARTMENT PRO USUARIO
-	public void newUser(String name, boolean tipo, Department departament) {
-		if(tipo){
-			Administrator adm = new Administrator(name);
-			users.add(adm);
-			return;
-		}
-		Employee employee = new Employee(name, departament);
+	/**
+	 * Creates a new user for an administrator.
+	 * @apiNote Use changeUser() method to change users. 
+	 * @param name New user's name;
+	 */
+	public void newUser(String name) {
+		Administrator adm = new Administrator(name);
+		users.add(adm);
+	}
+
+	/**
+	 * Creates a new user for an employee.
+	 * @apiNote Use changeUser() method to change users. 
+	 * @param name New user's name;
+	 * @param department New user's department.
+	 */
+	public void newUser(String name, Department department) {
+		Employee employee = new Employee(name, department);
 		users.add(employee);
 	}
 
+	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public void newOrder() {
+		return;
 	}
 
+	/**
+	 * @return logged in user.
+	 */
 	public User getCurrentUser() {
 		return currentUser;
 	}
 
-	public Order[] ordersByDate(String date1, String date2) {
+	//DESENVOLVER E DOCUMENTAR JAVADOC
+	//COMO FAZER DATA?? nota no cabeçalho com sugestão
+	public Order[] ordersByDate(String date1, String date2) {	
 		return null;
 	}
 
-	public Order[] ordersByEmployee(Employee employee) {
-		return null;
+	/**
+	 * @return User's list.
+	 */
+	public ArrayList<User> getUsers() {
+		return users;
 	}
 
-	public Order[] ordersByDescription(String description) {
-		return null;
+	/**
+	 * checks if the user exists in the database
+	 * @param user User to be checked.
+	 * @return true if the user exists; false if it does not.
+	 */
+	private boolean userCheck(User user){
+		int tam = users.size();
+		for(int i=0; i<tam; i++){
+			if(user == users.get(i)) return true;
+		}
+		return false;
 	}
 
+	//definir como será pedido para referenciar o usuário no APP
+	//sugestão: duas opções: 1. por id 2. printar lista com índices+nomes e pedir o índice 
+	//NO APP: TRATAR CASOS DE NULL
+	/**
+	 * Gets all the orders made by an specific user.
+	 * @apiNote Only administrators can get this info.
+	 * @param user User 'under investigation'.
+	 * @return An static array with the users Orders.
+	 * @null If the current user is not an administrator;
+	 * If the user does not exist; 
+	 * If the user had not made any orders.
+	 */
+	public Order[] ordersByUser(User user){
+		if(!(currentUser.type() || userCheck(user))) return null;
+
+		int size = orders.size(), count = 0;
+		
+		for(int i=0; i<size; i++){
+			if(orders.get(i).getUser() == user) count++;
+		}
+		
+		if(count == 0) return null;
+		
+		Order[] uOrders = new Order[count];
+		int j=0;
+		for(int i=0; i<count; i++){
+			if(orders.get(i).getUser() == user){
+				uOrders[j] = orders.get(i);
+				j++;
+			}
+		}
+
+		return uOrders;
+	}
+
+	//NO APP: TRATAR CASOS DE NULL
+	/**
+	 * Gets all the orders that contains items that match the description.
+	 * @apiNote Only administrators can get this info.
+	 * @param description ordered item's description that needs to be searched.
+	 * @return An ArrayList containing all the orders with the specified item.
+	 * @null If the current user is not an administrator;
+	 * If there are not any orders with the item.
+	 */
+	public ArrayList<Order> ordersByDescription(String description) {
+		if(!(currentUser.type())) return null;
+
+		int oSize = orders.size(), iSize;
+		ArrayList<Order> dOrders = new ArrayList<Order>();
+		Order orderI;
+		ArrayList<Item> orderItems;
+
+		for(int i=0; i<oSize; i++){
+			orderI = orders.get(i);
+			orderItems = orders.get(i).getItems();
+			iSize = orderItems.size();
+			for(int j=0; j<iSize; j++){
+				if(orderItems.get(j).getDescription().equalsIgnoreCase(description)) dOrders.add(orderI);
+			}
+		}
+		
+		if(dOrders.size() == 0) return null;
+		return dOrders;
+	}
+
+	//ver depois de feita a Order qual número é qual status
+	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public Order[] openOrders() {
 		return null;
 	}
-
+	
+	//ver depois de feita a Order qual número é qual status
+	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public void evaluateOrder(Order order) {
-
+		return;
 	}
 
+	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public double[] totalOrderPercentages() {
 		return null;
 	}
 
+	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public double[] last30DaysOrders() {
 		return null;
 	}
 
+	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public double[] totalsByStatus() {
 		return null;
 	}
 
+	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public Order highestValueOpenOrder() {
 		return null;
 	}
