@@ -24,7 +24,7 @@ public class System {
 	}
 
 	public User getCurrentUser() {
-		return null;
+		return currentUser;
 	}
 
 	public Order[] ordersByDate(String date1, String date2) {
