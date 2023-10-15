@@ -1,4 +1,3 @@
-import org.jetbrains.annotations.NotNull;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
@@ -13,7 +12,7 @@ public class Order {
 	private final ArrayList<Item> items;
 	private final User user;
 
-	public Order(@NotNull User user) {
+	public Order(User user) {
 		items = new ArrayList<>();
 		this.user = user;
 		date = Calendar.getInstance();
