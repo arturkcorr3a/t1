@@ -17,7 +17,7 @@ public class Order {
 		this.user = user;
 		date = Calendar.getInstance();
 		if (user.type()) department = null;
-		else department = user.getDepartment();
+		else department = Employee.getDepartment();
 		status = 0;
 	}
 
@@ -80,10 +80,6 @@ public class Order {
 
 	public User getUser() {
 		return user;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 	public String toString() {
