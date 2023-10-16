@@ -27,7 +27,7 @@ public class Order {
 		this.user = user;
 		date = Calendar.getInstance();
 		if (user.type()) department = null;
-		else department = Employee.getDepartment();
+		else department = user.getDepartment();
 		status = 0;
 	}
 

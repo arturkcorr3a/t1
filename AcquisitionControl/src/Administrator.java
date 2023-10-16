@@ -12,4 +12,8 @@ public class Administrator extends User {
 		super.id = 1000 + User.id_aux;
 		User.id_aux ++;
 	}
+
+	public Department getDepartment(){
+		return null;
+	}
 }

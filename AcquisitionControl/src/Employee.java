@@ -3,7 +3,7 @@
  */
 public class Employee extends User {
 
-	private static Department department;
+	private Department department;
 
 	/**
 	 * Constructor method for a new employee.
@@ -13,7 +13,7 @@ public class Employee extends User {
 	 */
 	public Employee(String name, Department department) {
 		super.name = name;
-		Employee.department = department;
+		this.department = department;
 		super.id = 5000 + User.id_aux;
 		User.id_aux ++;
 	}
@@ -22,8 +22,8 @@ public class Employee extends User {
 	 * @apiNote Returns a 'Department' object; to return the String, use 'toString()' method.
 	 * @return Employee's department.
 	 */
-	public static Department getDepartment() {
-		return department;
+	public Department getDepartment() {
+		return this.department;
 	}
 
 	@Override

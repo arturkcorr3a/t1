@@ -58,6 +58,8 @@ public abstract class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public abstract Department getDepartment();
 	
 	public String toString(){
 		return "Name: " + name + "\t| ID:\t" + this.id + "-" + inicials();
