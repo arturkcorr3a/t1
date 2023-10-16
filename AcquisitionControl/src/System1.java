@@ -7,11 +7,6 @@ import java.util.ArrayList;
  */
 public class System1 {
 
-//ENTRADA E SAÍDA DE DADOS SÓ NO APP!! 
-//REVISAR MÉTODOS PARA VER SE O USUÁRIO ATUAL É ADMIN NOS QUE TEM ESSA CARACTERÍSTICA
-//PENSAR NUMA SOLUÇÃO PRA DATA; CLASSE PRONTA? JÁ PEGARIA AUTOMATICAMENTE PELO HORÁRIO DO SISTEMA?
-// (PARECE MELHOR ALGO DO GÊNERO DO QUE DEIXAR COMO STRING)
-
 //NOTA PRO EDUARDO: depois que tu acabar a classe Order dá uma olhada nos métodos que retornam Order[]
 //					pra ver se eu não fiz bosta 
 
@@ -58,7 +53,6 @@ public class System1 {
 		}
 	}
 
-	//REVISAR VALORES MÁXIMOS DE CADA DEPARTAMENTO
 	/**
 	 * Inicializes the System with 5 departments.
 	 */
@@ -70,8 +64,6 @@ public class System1 {
 		departments[4] = new Department("Maintance", 1200);
 	}
 
-	//IMPLEMENTAR NO APP DE MANEIRA QUE, AO FINAL, MOSTRE SE FOI REALIZADA A TROCA 
-	// E OS USUÁRIOS ANTERIOR E NOVO
 	/**
 	 * Login to another user, through it's id and inicials.
 	 * @param id ID of the logging user.
@@ -151,7 +143,6 @@ public class System1 {
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
-	//COMO FAZER DATA?? nota no cabeçalho com sugestão
 	public Order[] ordersByDate(String date1, String date2) {	
 		return null;
 	}
@@ -191,9 +182,6 @@ public class System1 {
 		return false;
 	}
 
-	//definir como será pedido para referenciar o usuário no APP
-	//sugestão: duas opções: 1. por id 2. printar lista com índices+nomes e pedir o índice 
-	//NO APP: TRATAR CASOS DE NULL
 	/**
 	 * Gets all the orders made by an specific user.
 	 * @apiNote Only administrators can get this info.
@@ -226,7 +214,6 @@ public class System1 {
 		return uOrders;
 	}
 
-	//NO APP: TRATAR CASOS DE NULL
 	/**
 	 * Gets all the orders that contains items that match the description.
 	 * @apiNote Only administrators can get this info.

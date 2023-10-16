@@ -115,13 +115,80 @@ public class App {
 	 * @apiNote Only admins have access to this.
 	 */
 	public void showUserList(){
+		if(!(system.getCurrentUser().type())){
+			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
+			return;
+		}
+
 		ArrayList<User> users = system.getUsers();
 		int size = users.size();
 
 		System.out.println("\n-----USER LIST-----");
 
 		for(int i=0; i<size; i++){
-			System.out.println(i + "-" + users.get(i).toString());
+			System.out.println(i + " - " + users.get(i).toString());
+		}
+	}
+
+	/**
+	 * Prints the complete list of orders of a determined user
+	 * @clears Yes
+	 * @apiNote Only administrators hace access to this
+	 */
+	public void ordersByUser(){
+		clear();
+
+		if(!(system.getCurrentUser().type())){
+			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
+			return;
+		}
+
+		showUserList();
+		int id = askID();
+
+		User user = system.userByID(id);
+		if(user == null){
+			System.out.println("ERROR: USER DOES NOT EXIST.");
+			return;
+		}
+
+		Order[] orders = system.ordersByUser(user);
+		if(orders == null){
+			System.out.println("The requested user has not made any orders.");
+			return;
+		}
+
+		System.out.println("\n");
+		for(int i=0; i<orders.length; i++){
+			System.out.println((i+1) + " - " + orders[i].toString());
+		}
+	}
+
+	/**
+	 * Prints a complete list with all the orders containing an item matching said description
+	 * @clears Yes
+	 * @apiNote Only administrators hace access to this
+	 */
+	public void ordersByDescription(){
+		clear();
+
+		if(!(system.getCurrentUser().type())){
+			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
+			return;
+		}
+
+		System.out.println("Type the item's description: ");
+		String description = in.nextLine();
+
+		ArrayList<Order> orders = system.ordersByDescription(description);
+		if(orders.size() == 0){
+			System.out.println("There are not any orders containing an item matching the description.");
+			return;
+		}
+
+		System.out.println("\n");
+		for(int i=0; i<orders.size(); i++){
+			System.out.println((i+1) + " - " + orders.get(i));
 		}
 	}
 
@@ -151,6 +218,7 @@ public class App {
 	/**
 	 * Asks for an ID and makes sure its within accetable bounds.
 	 * @return the verified ID.
+	 * @clears No
 	 */
 	public int askID(){
 
