@@ -60,6 +60,6 @@ public abstract class User {
 	}
 	
 	public String toString(){
-		return "Name: " + name + " | ID: " + this.id + "-" + inicials();
+		return "Name: " + name + "\t| ID:\t" + this.id + "-" + inicials();
 	}
 }

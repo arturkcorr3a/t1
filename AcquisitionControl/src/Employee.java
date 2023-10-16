@@ -15,7 +15,7 @@ public class Employee extends User {
 		super.name = name;
 		this.department = department;
 		super.id = 5000 + User.id_aux;
-		User.id_aux = 0;
+		User.id_aux ++;
 	}
 
 	/**
@@ -28,6 +28,6 @@ public class Employee extends User {
 
 	@Override
 	public String toString(){
-		return super.toString() + " | Department: " + this.department;
+		return super.toString() + "\t| Department: " + this.department;
 	}
 }

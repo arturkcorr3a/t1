@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * @apiNote Without I/O; that must be done in de App.java class.
  * @author Artur Kalil e Eduardo Martginoni
  */
-public class System {
+public class System1 {
 
 //ENTRADA E SAÍDA DE DADOS SÓ NO APP!! 
 //REVISAR MÉTODOS PARA VER SE O USUÁRIO ATUAL É ADMIN NOS QUE TEM ESSA CARACTERÍSTICA
@@ -25,7 +25,7 @@ public class System {
 	 * Inicializes the users, orders and departments arrays.
 	 * Creates 5 departments and 16 users.
 	 */
-	public System(){
+	public System1(){
 		users = new ArrayList<User>();
 		departments = new Department[5];
 		orders = new ArrayList<Order>();
@@ -76,9 +76,13 @@ public class System {
 	 * Login to another user, through it's id and inicials.
 	 * @param id ID of the logging user.
 	 * @param inicials First two letters of the logging user.
-	 * @return The logged out user or *null* if the login was unsuccessful.
+	 * @return The logged out user 
+	 * @null If the login was unsuccessful.
+	 * Or if there is no user matching that ID. 
 	 */
 	public User changeUser(int id, String inicials) {
+		if(!(userCheck(id))) return null;
+
 		for(int i=0; i<users.size(); i++){
 			User user = users.get(i);
 			if (user.getId() == id && user.inicials().equalsIgnoreCase(inicials)){
@@ -91,24 +95,47 @@ public class System {
 	}
 
 	/**
+	 * Gets the User by its ID
+	 * @param id user's id
+	 * @return User object with matching ID
+	 * @null if the user does not exist
+	 */
+	public User userByID(int id){
+		if(!(userCheck(id))) return null;
+		int tam = users.size();
+		for(int i=0; i<tam; i++){
+			if(users.get(i).getId() == id) return users.get(i);
+		}
+		return null;
+	}
+
+	public Department[] getDepartments(){
+		return departments;
+	}
+
+	/**
 	 * Creates a new user for an administrator.
 	 * @apiNote Use changeUser() method to change users. 
-	 * @param name New user's name;
+	 * @param name New user's name.
+	 * @return New User object.
 	 */
-	public void newUser(String name) {
+	public User newUser(String name) {
 		Administrator adm = new Administrator(name);
 		users.add(adm);
+		return adm;
 	}
 
 	/**
 	 * Creates a new user for an employee.
 	 * @apiNote Use changeUser() method to change users. 
-	 * @param name New user's name;
+	 * @param name New user's name.
 	 * @param department New user's department.
+	 * @return New User object.
 	 */
-	public void newUser(String name, Department department) {
+	public User newUser(String name, Department department) {
 		Employee employee = new Employee(name, department);
 		users.add(employee);
+		return employee;
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
@@ -139,12 +166,27 @@ public class System {
 	/**
 	 * checks if the user exists in the database
 	 * @param user User to be checked.
-	 * @return true if the user exists; false if it does not.
+	 * @return true if the user exists;
+	 * false if it does not.
 	 */
-	private boolean userCheck(User user){
+	public boolean userCheck(User user){
 		int tam = users.size();
 		for(int i=0; i<tam; i++){
 			if(user == users.get(i)) return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the user exists in the database (by their ID)
+	 * @param id id of the User to be checked.
+	 * @return true if the user exists;
+	 * false if it does not.
+	 */
+	public boolean userCheck(int id){
+		int tam = users.size();
+		for(int i=0; i<tam; i++){
+			if(id == users.get(i).getId()) return true;
 		}
 		return false;
 	}
