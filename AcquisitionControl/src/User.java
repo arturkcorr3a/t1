@@ -11,7 +11,7 @@ public abstract class User {
 	 * Gets the user's inicials directly from his name.
 	 * @return A String with the first 2 letters os the User's name, in upper case.
 	 */
-	public String inicials() {
+	public String initials() {
 		if (name == null) return null;
 		String inicials = "" + this.name.charAt(0) + this.name.charAt(1);
 		return inicials.toUpperCase();
@@ -62,6 +62,6 @@ public abstract class User {
 	public abstract Department getDepartment();
 	
 	public String toString(){
-		return "Name: " + name + "\t| ID:\t" + this.id + "-" + inicials();
+		return "Name: " + name + "\t| ID:\t" + this.id + "-" + initials();
 	}
 }

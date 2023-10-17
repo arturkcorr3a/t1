@@ -1,11 +1,13 @@
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Implements methods that manage the system
  * @apiNote Without I/O; that must be done in de App.java class.
- * @author Artur Kalil e Eduardo Martginoni
+ * @author Artur Kalil and Eduardo Martginoni
  */
-public class System1 {
+public class Control {
 
 //NOTA PRO EDUARDO: depois que tu acabar a classe Order dá uma olhada nos métodos que retornam Order[]
 //					pra ver se eu não fiz bosta 
@@ -20,7 +22,7 @@ public class System1 {
 	 * Inicializes the users, orders and departments arrays.
 	 * Creates 5 departments and 16 users.
 	 */
-	public System1(){
+	public Control(){
 		users = new ArrayList<User>();
 		departments = new Department[5];
 		orders = new ArrayList<Order>();
@@ -60,24 +62,24 @@ public class System1 {
 		departments[0] = new Department("Marketing", 800);
 		departments[1] = new Department("Finances", 1000);
 		departments[2] = new Department("Human Resources", 500);
-		departments[3] = new Department("Engeneering", 150000);
-		departments[4] = new Department("Maintance", 1200);
+		departments[3] = new Department("Engineering", 150000);
+		departments[4] = new Department("Maintenance", 1200);
 	}
 
 	/**
-	 * Login to another user, through it's id and inicials.
+	 * Login to another user, through its id and initials.
 	 * @param id ID of the logging user.
-	 * @param inicials First two letters of the logging user.
-	 * @return The logged out user 
+	 * @param initials First two letters of the logging user.
+	 * @return The logged-out user
 	 * @null If the login was unsuccessful.
 	 * Or if there is no user matching that ID. 
 	 */
-	public User changeUser(int id, String inicials) {
+	public User changeUser(int id, String initials) {
 		if(!(userCheck(id))) return null;
 
 		for(int i=0; i<users.size(); i++){
 			User user = users.get(i);
-			if (user.getId() == id && user.inicials().equalsIgnoreCase(inicials)){
+			if (user.getId() == id && user.initials().equalsIgnoreCase(initials)){
 				User aux = currentUser;
 				currentUser = user;
 				return aux;
@@ -183,10 +185,10 @@ public class System1 {
 	}
 
 	/**
-	 * Gets all the orders made by an specific user.
+	 * Gets all the orders made by a specific user.
 	 * @apiNote Only administrators can get this info.
 	 * @param user User 'under investigation'.
-	 * @return An static array with the users Orders.
+	 * @return A static array with the users Orders.
 	 * @null If the current user is not an administrator;
 	 * If the user does not exist; 
 	 * If the user had not made any orders.
@@ -245,24 +247,71 @@ public class System1 {
 
 	//ver depois de feita a Order qual número é qual status
 	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public Order[] openOrders() {
-		return null;
+	public ArrayList<Order> openOrders() {
+		ArrayList<Order> openOrders = new ArrayList<>();
+		for (int i=0; i<orders.size(); i++){
+			if (orders.get(i).getStatus()==0) openOrders.add(orders.get(i));
+		}
+		return openOrders;
 	}
 	
 	//ver depois de feita a Order qual número é qual status
 	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public void evaluateOrder(Order order) {
-		return;
+	public void evaluateOrder(int index, int status) {
+			if (status==1) orders.get(index).approve();
+			else if (status==-1) orders.get(index).reject();
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public double[] totalOrderPercentages() {
-		return null;
+	public String totalOrderPercentages() {
+		int total = orders.size(), countA=0, countR=0;
+		for(int i=0; i<total;i++){
+			if (orders.get(i).getStatus()==1) countA++;
+			else if(orders.get(i).getStatus()==-1) countR++;
+		}
+
+		return "Number of Orders: " + total +
+				"\nApproved Orders: [" + countA + "] " + 100*countA/total + "%" +
+				"\nRejected Orders: [" + countR + "] " + 100*countR/total + "%";
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public double[] last30DaysOrders() {
-		return null;
+	public String last30DaysOpenedOrders() {
+		Calendar date = Calendar.getInstance();
+		date.add(Calendar.DAY_OF_MONTH, -31);
+		Date today30 = date.getTime();
+
+		int count=0, total = orders.size();
+		double sum=0;
+
+		for (int i=0; i<total; i++){
+			if (orders.get(i).getDate().after(today30)) {
+				sum += orders.get(i).total();
+				count ++;
+			}
+			if (count==0) return "No orders have been opened in the last 30 days.";
+		}
+		return "Orders opened in the last 30 days: " + count +
+				"\nAverage order value: $" + String.format("%.2f",sum/total) ;
+	}
+
+	public String last30DaysCompletedOrders() {
+		Calendar date = Calendar.getInstance();
+		date.add(Calendar.DAY_OF_MONTH, -31);
+		Date today30 = date.getTime();
+
+		int count=0, total = orders.size();
+		double sum=0;
+
+		for (int i=0; i<total; i++){
+			if (orders.get(i).getClosureDate().after(today30)) {
+				sum += orders.get(i).total();
+				count ++;
+			}
+			if (count==0) return "No orders have been completed in the last 30 days.";
+		}
+		return "Orders completed in the last 30 days: " + count +
+				"\nAverage order value: $" + String.format("%.2f",sum/total) ;
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
@@ -271,8 +320,12 @@ public class System1 {
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public Order highestValueOpenOrder() {
-		return null;
+	public String highestValueOpenOrder() {
+		int index=0;
+		for (int i=0; i<orders.size()-1;i++){
+			if (orders.get(i).total() > orders.get(i+1).total()) index = i;
+		}
+		return orders.get(index).toString();
 	}
 
 }

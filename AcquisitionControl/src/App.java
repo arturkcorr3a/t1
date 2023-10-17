@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
-	private System1 system = new System1();
+	private final Control control = new Control();
 	private static final Scanner in = new Scanner(System.in);
 
 /* IDEIAS:
@@ -16,7 +16,7 @@ public class App {
 	 * @clears No
 	 */
 	public void status(){
-		User user = system.getCurrentUser();
+		User user = control.getCurrentUser();
 		System.out.println("CURRENT USER: " + user.toString() + "\nTYPE:" + user.typeString() + "\n");
 	}
 
@@ -29,21 +29,21 @@ public class App {
 		System.out.println("-----LOG IN-----");
 
 		int id = askID(), count=0;
-		if(!(system.userCheck(id))){
+		if(!(control.userCheck(id))){
 			System.out.println("LOGIN FAILED: ID not found");
 		}
 
 		System.out.println("\nID: " + id);
 	
 		String inicials = askInicials();
-		User old = system.changeUser(id, inicials);
+		User old = control.changeUser(id, inicials);
 
 		while(old == null && count <3){
 			count ++;
 			System.out.println("\nERROR: Inicials do not match the ID.");
 			System.out.println("\nID: " + id);
 			inicials = askInicials();
-			old = system.changeUser(id, inicials);
+			old = control.changeUser(id, inicials);
 		}
 
 		if(count >= 3) {
@@ -80,12 +80,12 @@ public class App {
 		User user = null;
 
 		if(type == 'A' || type == 'a'){
-			user = system.newUser(name);
+			user = control.newUser(name);
 		}
 
 		if(type == 'E' || type == 'e'){
 			Department department = askDepartment();
-			user = system.newUser(name, department);
+			user = control.newUser(name, department);
 		}
 
 		clear();
@@ -97,7 +97,7 @@ public class App {
 		
 		int change = in.nextInt();
 		if(change == 0){
-			system.changeUser(user.getId(), user.inicials());
+			control.changeUser(user.getId(), user.initials());
 			status();
 		}
 			else if(change == 1){
@@ -115,12 +115,12 @@ public class App {
 	 * @apiNote Only admins have access to this.
 	 */
 	public void showUserList(){
-		if(!(system.getCurrentUser().type())){
+		if(!(control.getCurrentUser().type())){
 			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
 			return;
 		}
 
-		ArrayList<User> users = system.getUsers();
+		ArrayList<User> users = control.getUsers();
 		int size = users.size();
 
 		System.out.println("\n-----USER LIST-----");
@@ -138,7 +138,7 @@ public class App {
 	public void ordersByUser(){
 		clear();
 
-		if(!(system.getCurrentUser().type())){
+		if(!(control.getCurrentUser().type())){
 			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
 			return;
 		}
@@ -146,13 +146,13 @@ public class App {
 		showUserList();
 		int id = askID();
 
-		User user = system.userByID(id);
+		User user = control.userByID(id);
 		if(user == null){
 			System.out.println("ERROR: USER DOES NOT EXIST.");
 			return;
 		}
 
-		Order[] orders = system.ordersByUser(user);
+		Order[] orders = control.ordersByUser(user);
 		if(orders == null){
 			System.out.println("The requested user has not made any orders.");
 			return;
@@ -172,7 +172,7 @@ public class App {
 	public void ordersByDescription(){
 		clear();
 
-		if(!(system.getCurrentUser().type())){
+		if(!(control.getCurrentUser().type())){
 			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
 			return;
 		}
@@ -180,7 +180,7 @@ public class App {
 		System.out.println("Type the item's description: ");
 		String description = in.nextLine();
 
-		ArrayList<Order> orders = system.ordersByDescription(description);
+		ArrayList<Order> orders = control.ordersByDescription(description);
 		if(orders.size() == 0){
 			System.out.println("There are not any orders containing an item matching the description.");
 			return;
@@ -197,7 +197,7 @@ public class App {
 	 * @return The chosen department amongst the 5.
 	 */
 	public Department askDepartment(){
-		Department[] departments = system.getDepartments();
+		Department[] departments = control.getDepartments();
 		for(int i=0; i<5; i++){
 			System.out.println("["+(i+1)+"] " + departments[i].getName());
 		}
