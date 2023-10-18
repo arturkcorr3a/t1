@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Implements methods that manage the system
@@ -8,9 +7,6 @@ import java.util.Date;
  * @author Artur Kalil and Eduardo Martginoni
  */
 public class Control {
-
-//NOTA PRO EDUARDO: depois que tu acabar a classe Order dá uma olhada nos métodos que retornam Order[]
-//					pra ver se eu não fiz bosta 
 
 	private ArrayList<User> users;
 	private Department[] departments;
@@ -26,7 +22,7 @@ public class Control {
 		users = new ArrayList<User>();
 		departments = new Department[5];
 		orders = new ArrayList<Order>();
-		startDepartaments();
+		startDepartments();
 		startUsers();
 		this.currentUser = users.get(0);
 	}
@@ -58,7 +54,7 @@ public class Control {
 	/**
 	 * Inicializes the System with 5 departments.
 	 */
-	private void startDepartaments(){
+	private void startDepartments(){
 		departments[0] = new Department("Marketing", 800);
 		departments[1] = new Department("Finances", 1000);
 		departments[2] = new Department("Human Resources", 500);
@@ -134,7 +130,8 @@ public class Control {
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public void newOrder() {
-		return;
+		Order order = new Order(currentUser);
+		orders.add(order);
 	}
 
 	/**
@@ -145,8 +142,14 @@ public class Control {
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public Order[] ordersByDate(String date1, String date2) {	
-		return null;
+	public ArrayList<Order> ordersByDate(Calendar min, Calendar max){
+		ArrayList<Order> dOrders = new ArrayList<>();
+		for (int i=0; i<orders.size();i++){
+			if (orders.get(i).getDate().after(min) && orders.get(i).getDate().after(max)){
+				dOrders.add(orders.get(i));
+			}
+		}
+		return dOrders;
 	}
 
 	/**
@@ -279,13 +282,12 @@ public class Control {
 	public String last30DaysOpenedOrders() {
 		Calendar date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, -31);
-		Date today30 = date.getTime();
 
 		int count=0, total = orders.size();
 		double sum=0;
 
 		for (int i=0; i<total; i++){
-			if (orders.get(i).getDate().after(today30)) {
+			if (orders.get(i).getDate().after(date)) {
 				sum += orders.get(i).total();
 				count ++;
 			}
@@ -298,13 +300,12 @@ public class Control {
 	public String last30DaysCompletedOrders() {
 		Calendar date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, -31);
-		Date today30 = date.getTime();
 
 		int count=0, total = orders.size();
 		double sum=0;
 
 		for (int i=0; i<total; i++){
-			if (orders.get(i).getClosureDate().after(today30)) {
+			if (orders.get(i).getClosureDate().after(date)) {
 				sum += orders.get(i).total();
 				count ++;
 			}
@@ -315,8 +316,24 @@ public class Control {
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public double[] totalsByStatus() {
-		return null;
+	public String totalsByStatus() {
+		Calendar date = Calendar.getInstance();
+		date.add(Calendar.DAY_OF_MONTH, -31);
+		double sumR=0, sumO=0, sumA=0, sumC=0;
+
+		for (int i=0; i<orders.size(); i++){
+			if (orders.get(i).getDate().after(date)) {
+				if (orders.get(i).getStatus()==-1) sumR += orders.get(i).total();
+				else if (orders.get(i).getStatus()==0) sumO += orders.get(i).total();
+				else if (orders.get(i).getStatus()==1) sumA += orders.get(i).total();
+				else sumC += orders.get(i).total();
+				}
+			}
+		return "-- TOTAL VALUE OF EACH CATEGORY -- \n" +
+				"\nRejected Orders: $" + String.format("%.2f",sumR) +
+				"\nOpen Orders: $" + String.format("%.2f",sumO) +
+				"\nApproved Orders: $" + String.format("%.2f",sumA) +
+				"\nCompleted Orders: $" + String.format("%.2f",sumC);
 	}
 
 	//DESENVOLVER E DOCUMENTAR JAVADOC
