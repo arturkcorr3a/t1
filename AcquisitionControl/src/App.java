@@ -452,9 +452,9 @@ public class App {
 		clear();
 		int menu;
 		do {
-			System.out.println("-----MAIN MENU-----");
+			System.out.println("\n-----MAIN MENU-----\n");
 
-			System.out.printf("Hello, %s.\nWhat do you wish to do next?\n", control.getCurrentUser().getName());
+			System.out.printf("Hello, %s.\n\nWhat do you wish to do next?\n", control.getCurrentUser().getName());
 			System.out.println("\t[0] Exit;\n\t[1] Log in to a different user;");
 			System.out.println("\t[2] Evaluate an open order;\n\t[3] Show highest value open order;");
 			System.out.println("\t[4] Show last 30 days open orders;\n\t[5] Show last 30 days closed orders;");
@@ -463,6 +463,7 @@ public class App {
 			System.out.println("\t[10] Search orders by date;\n\t[11] Search orders by requesting user;");
 			System.out.println("\t[12] Show totals by order status;\n\t[13] Show total order percentages;");
 			menu = in.nextInt();
+			in.next();
 
 			switch(menu){
 				case 0: break;
