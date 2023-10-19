@@ -63,14 +63,6 @@ public class Order {
 	}
 
 	/**
-	 * @return The user department that opened the order.
-	 * @apiNote It will return 'null' if the order was opened by an admin.
-	 */
-	public Department getDepartment() {
-		return department;
-	}
-
-	/**
 	 * @return An ArrayList of the order items.
 	 */
 	public ArrayList<Item> getItems() {

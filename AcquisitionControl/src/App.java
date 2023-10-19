@@ -1,7 +1,12 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
+/**
+ * @author Artur Kalil and Eduardo Martginoni
+ */
 public class App {
 	private final Control control = new Control();
 	private final Scanner in = new Scanner(System.in);
@@ -73,7 +78,6 @@ public class App {
 
 	/**
 	 * Clears console and prints the user info.
-	 * @see status
 	 */
 	public void clear(){
 		System.out.print("\033[H\033[2J");  
@@ -406,26 +410,44 @@ public class App {
 	 * @clears Yes.
 	 * @apiNote Only administrators have access to this.
 	 */
-	public void ordersByDate(){
+	public void ordersByDate() {
 		clear();
 		System.out.println("-----ORDERS BY PERIOD OF TIME-----\n\n");
 
-		if(!(control.getCurrentUser().type())){
+		if (!(control.getCurrentUser().type())) {
 			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
 			return;
 		}
 
-		Calendar min=null, max=null;
-		//EDUARDO: FAZ AQUI PRA PEDIR AS DATAS; deixei declarado =null só pra sair os erros;
+
+		System.out.println("Enter the minimum date:  \n(pattern: dd/mm/yyyy)");
+		String minS = in.next();
+
+		System.out.println("Enter the maximum date:  \n(pattern: dd/mm/yyyy)");
+		String maxS = in.next();
+		Calendar min;
+		Calendar max;
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			min = Calendar.getInstance();
+			max = Calendar.getInstance();
+
+			min.setTime(sdf.parse(minS));
+			max.setTime(sdf.parse(maxS));
+		} catch (ParseException e) {
+			System.out.println("Error: Date Incorrect Pattern");
+			return;
+		}
+
 		ArrayList<Order> orders = control.ordersByDate(min, max);
-		if(orders.size() == 0){
-			System.out.println("There are not any orders in that period.");
+		if (orders.size() == 0) {
+			System.out.println("There are any orders in that period.");
 			return;
 		}
 
 		System.out.println("\n");
-		for(int i=0; i<orders.size(); i++){
-			System.out.println((i+1) + " - " + orders.get(i));
+		for (int i = 0; i < orders.size(); i++) {
+			System.out.println((i + 1) + " - " + orders.get(i).toString());
 		}
 	}
 
