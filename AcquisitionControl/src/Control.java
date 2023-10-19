@@ -131,6 +131,10 @@ public class Control {
 		return employee;
 	}
 
+	/**
+	 * Method to create a new Order
+	 * @return the order created.
+	 */
 	public Order newOrder() {
 		Order order = new Order(currentUser);
 		orders.add(order);
@@ -155,7 +159,7 @@ public class Control {
 	}
 
 	/**
-	 * @return User's list.
+	 * @return Users list.
 	 */
 	public ArrayList<User> getUsers() {
 		return users;
@@ -250,6 +254,10 @@ public class Control {
 		return dOrders;
 	}
 
+	/**
+	 * Method to see all open orders.
+	 * @return An ArrayList that contains all open orders.
+	 */
 	public ArrayList<Order> openOrders() {
 		ArrayList<Order> openOrders = new ArrayList<>();
 		for (int i=0; i<orders.size(); i++){
@@ -257,12 +265,21 @@ public class Control {
 		}
 		return openOrders;
 	}
-	
+
+	/**
+	 * Method to evaluate an order.
+	 * @param order The order to be evaluated.
+	 * @param status New status of the order
+	 */
 	public void evaluateOrder(Order order, int status) {
 			if (status==1) order.approve();
 			else if (status==-1) order.reject();
 	}
 
+	/**
+	 * Method to see the total number of orders separated into approved orders and rejected orders with percentages.
+	 * @return A String with the information.
+	 */
 	public String totalOrderPercentages() {
 		int total = orders.size(), countA=0, countR=0;
 		for(int i=0; i<total;i++){
@@ -275,6 +292,9 @@ public class Control {
 				"\nRejected Orders: [" + countR + "] " + 100*countR/total + "%";
 	}
 
+	/** Method to see all orders opened in the last 30 days and their average order value.
+	 * @return A string with the information.
+	 */
 	public String last30DaysOpenedOrders() {
 		Calendar date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, -31);
@@ -293,6 +313,9 @@ public class Control {
 				"\nAverage order value: $" + String.format("%.2f",sum/total) ;
 	}
 
+	/** Method to see all completed orders in the last 30 days and their average order value.
+	 * @return A string with the information.
+	 */
 	public String last30DaysCompletedOrders() {
 		Calendar date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, -31);
@@ -311,6 +334,10 @@ public class Control {
 				"\nAverage order value: $" + String.format("%.2f",sum/total) ;
 	}
 
+	/**
+	 * Method to see the orders total sum separated by each status.
+	 * @return A string with the information.
+	 */
 	public String totalsByStatus() {
 		Calendar date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, -31);
@@ -331,6 +358,10 @@ public class Control {
 				"\nCompleted Orders: $" + String.format("%.2f",sumC);
 	}
 
+	/**
+	 * Method to see the information of the open order with the highest value.
+	 * @return A string with the information.
+	 */
 	public String highestValueOpenOrder() {
 		int index=0;
 		for (int i=0; i<orders.size()-1;i++){
