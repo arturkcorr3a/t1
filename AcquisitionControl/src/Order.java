@@ -107,12 +107,10 @@ public class Order {
 	}
 
 	public String toString() {
-		return "Order{" +
-				"department=" + department +
-				", date=" + date +
-				", closureDate=" + closureDate +
-				", status=" + status +
-				", items=" + items +
+		return "Date: " + date.toString() +
+				"; Closure Date: " + closureDate.toString() +
+				"; Status: " + status +
+				"; Total: R" + items +
 				", user=" + user +
 				'}';
 	}
@@ -126,7 +124,7 @@ public class Order {
 		for (Item items : items) {
 			total += items.getTotal();
 		}
-		if (total > department.getMaxValue()) {
+		if (department != null && total > department.getMaxValue()) {
 			reject();
 			return -1;
 		}

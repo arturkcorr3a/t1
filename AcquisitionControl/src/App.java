@@ -134,9 +134,9 @@ public class App {
 		ArrayList<Order> orders = openOrders();
 		if(orders.size() != 0){
 			System.out.println("\nEnter the index to the order to be evaluated: ");
-			int index = in.nextInt(), status;
+			int index = (in.nextInt() - 1), status;
 
-			while(index <= 0 || index > orders.size()){
+			while(index < 0 || index > orders.size()){
 				System.out.println("ERROR: index is not valid. Try again: ");
 				index = in.nextInt();
 			}
@@ -152,6 +152,7 @@ public class App {
 				status = in.nextInt();
 			}
 
+			in.nextLine();
 			control.evaluateOrder(orders.get(index), status);
 		}
 	}
@@ -233,7 +234,7 @@ public class App {
 			System.out.println("ERROR: Quantity must be a positive number.\nEnter correct price: ");
 			quant = in.nextInt();
 		}
-		in.next();
+		in.nextLine();
 
 		return new Item(description, price, quant);
 	}
@@ -253,27 +254,43 @@ public class App {
 			System.out.println("\nEnter the [" + count + "] item: ");
 			Item addedItem = newItem();
 			
+			boolean flag = true;
 			if(!(control.getCurrentUser().type())){
 				if((order.total() + addedItem.getTotal()) <= control.getCurrentUser().getDepartment().getMaxValue()){
 					order.addItem(addedItem);
 					System.out.println("Item successfuly added!");
-					count++;
 				}
 					else{
 						System.out.printf("\nERROR: Total amount exceeds your department limit of R$ %.2f.", control.getCurrentUser().getDepartment().getMaxValue());
+						flag = false;
 					}
 			}
+				else{
+					order.addItem(addedItem);
+					System.out.println("Item successfuly added!");
+				}
 
 			System.out.println("\nCurrent order so far:");
-			for(int i=0; i<count; i++){
-				System.out.println(order.getItems().get(i).toString());
+			if(count>1 || flag == true){
+				for(int i=0; i<count; i++){
+					System.out.println(order.getItems().get(i).toString());
+				}
 			}
+			
 			System.out.printf("\n--TOTAL: %.2f", order.total());
 
+
+			if(flag) count++;
 			System.out.println("\nPress\n\t[0] to finish order;\n\t[1] to add another item.");
 			op = in.nextInt();
-			in.next();
-		}while(op != 0 && op != 1);
+
+			while(op != 0 && op != 1){
+				System.out.println("ERROR: " + op + " is not a valid option. Try again.\n");
+				op = in.nextInt();
+			}
+
+			in.nextLine();
+		}while(op == 1);
 	}
 
 	/**
@@ -290,8 +307,7 @@ public class App {
 		do{
 			System.out.println("[A] for Administrator;");
 			System.out.println("[E] for Employee;");
-			type = (char)in.nextByte();
-			in.nextLine();
+			type = in.nextLine().charAt(0);
 		}while(type != 'a' && type != 'A' && type != 'e' && type != 'E');
 
 		System.out.println("Insert the name of the new user: ");
@@ -374,7 +390,7 @@ public class App {
 		String description = in.nextLine();
 
 		ArrayList<Order> orders = control.ordersByDescription(description);
-		if(orders.size() == 0){
+		if(orders == null){
 			System.out.println("There are not any orders containing an item matching the description.");
 			return;
 		}
@@ -463,7 +479,7 @@ public class App {
 			System.out.println("\t[10] Search orders by date;\n\t[11] Search orders by requesting user;");
 			System.out.println("\t[12] Show totals by order status;\n\t[13] Show total order percentages;");
 			menu = in.nextInt();
-			in.next();
+			in.nextLine();
 
 			switch(menu){
 				case 0: break;
