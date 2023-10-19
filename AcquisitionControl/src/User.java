@@ -57,8 +57,8 @@ public abstract class User {
 	 * @return A String with the type of user. 
 	 */
 	public String typeString(){
-		if(type()) return "Employee";
-		return "Administrator";
+		if(type()) return "Administrator";
+		return "Employee";
 	}
 
 	public String toString(){
