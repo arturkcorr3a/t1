@@ -302,6 +302,8 @@ public class Control {
 		int count=0, total = orders.size();
 		double sum=0;
 
+		if (total ==0) return "There is no order registered in the system.";
+		
 		for (int i=0; i<total; i++){
 			if (orders.get(i).getDate().after(date)) {
 				sum += orders.get(i).total();
@@ -322,6 +324,8 @@ public class Control {
 
 		int count=0, total = orders.size();
 		double sum=0;
+
+		if (total ==0) return "There is no order registered in the system.";
 
 		for (int i=0; i<total; i++){
 			if (orders.get(i).getClosureDate().after(date)) {

@@ -329,18 +329,18 @@ public class App {
 		}
 
 		clear();
-		System.out.println("NEW USER SUCCESSFULY CREATED\n" + user.toString());
+		System.out.println("NEW USER SUCCESSFULLY CREATED\n" + user.toString());
 		
 		System.out.println("\nDo you wish to login to " + user.getId() + "?");
-		System.out.println("[0] Yes");
-		System.out.println("[1] No");
+		System.out.println("[0] No");
+		System.out.println("[1] Yes");
 		
 		int change = in.nextInt();
-		if(change == 0){
+		if(change == 1){
 			control.changeUser(user.getId(), user.initials());
 			status();
 		}
-			else if(change == 1){
+			else if(change == 0){
 				status();
 			}
 				else{
@@ -495,7 +495,7 @@ public class App {
 			System.out.printf("Hello, %s.\n\nWhat do you wish to do next?\n", control.getCurrentUser().getName());
 			System.out.println("\t[0] Exit;\n\t[1] Log in to a different user;");
 			System.out.println("\t[2] Evaluate an open order;\n\t[3] Show highest value open order;");
-			System.out.println("\t[4] Show last 30 days open orders;\n\t[5] Show last 30 days closed orders;");
+			System.out.println("\t[4] Show last 30 days completed orders;\n\t[5] Show last 30 days open orders;");
 			System.out.println("\t[6] Place a new order;\n\t[7] Create a new user;");
 			System.out.println("\t[8] Show all open orders;\n\t[9] Search orders by item description;");
 			System.out.println("\t[10] Search orders by date;\n\t[11] Search orders by requesting user;");
