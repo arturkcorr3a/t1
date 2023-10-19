@@ -32,6 +32,92 @@ public class Order {
 	}
 
 	/**
+	 * @param item Item it will be added to the order.
+	 */
+	public void addItem(Item item) {
+		items.add(item);
+	}
+
+	/**
+	 * Method to approve an order.
+	 */
+	public void approve() {
+		this.status = 1;
+	}
+
+	/**
+	 * @return It will return the date the order was completed.
+	 * @apiNote This method returns a Calendar object, use SimpleDateFormat to format it.
+	 */
+	public Calendar getClosureDate() {
+		return closureDate;
+	}
+
+	/**
+	 * @return It will return the date the order was opened.
+	 * @apiNote This method returns a Calendar object, use SimpleDateFormat to format it.
+	 */
+	public Calendar getDate() {
+		return date;
+	}
+
+	/**
+	 * @return The user department that opened the order.
+	 * @apiNote It will return 'null' if the order was opened by an admin.
+	 */
+	public Department getDepartment() {
+		return department;
+	}
+
+	/**
+	 * @return An ArrayList of the order items.
+	 */
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+
+	/**
+	 * @return The order status.
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @return The user who opened the order.
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * Method to complete an order.
+	 * @apiNote The order closure date will automatically be the date and time the method was called.
+	 */
+	public void receive() {
+		status = 2;
+		closureDate = Calendar.getInstance();
+	}
+
+	/**
+	 * Method to reject an order.
+	 */
+	public void reject() {
+		status = -1;
+	}
+
+	public String toString() {
+		return "Order{" +
+				"department=" + department +
+				", date=" + date +
+				", closureDate=" + closureDate +
+				", status=" + status +
+				", items=" + items +
+				", user=" + user +
+				'}';
+	}
+	
+	/**
 	 * @return The total order sum.
 	 * @apiNote If the total order sum exceeds the department maximum value, the order will be reproved and the method will return -1.
 	 */
@@ -47,90 +133,5 @@ public class Order {
 		return total;
 	}
 
-	/**
-	 * @param item Item it will be added to the order.
-	 */
-	public void addItem(Item item) {
-		items.add(item);
-	}
-
-	/**
-	 * Method to reject an order.
-	 */
-	public void reject() {
-		status = -1;
-	}
-
-	/**
-	 * Method to approve an order.
-	 */
-	public void approve() {
-		status = 1;
-	}
-
-	/**
-	 * Method to complete an order.
-	 * @apiNote The order closure date will automatically be the date and time the method was called.
-	 */
-	public void receive() {
-		status = 2;
-		closureDate = Calendar.getInstance();
-	}
-
-	/**
-	 * @return The user department that opened the order.
-	 * @apiNote It will return 'null' if the order was opened by an admin.
-	 */
-	public Department getDepartment() {
-		return department;
-	}
-
-	/**
-	 * @return It will return the date the order was opened.
-	 * @apiNote This method returns a Calendar object, use SimpleDateFormat to format it.
-	 */
-	public Calendar getDate() {
-		return date;
-	}
-
-	/**
-	 * @return It will return the date the order was completed.
-	 * @apiNote This method returns a Calendar object, use SimpleDateFormat to format it.
-	 */
-	public Calendar getClosureDate() {
-		return closureDate;
-	}
-
-	/**
-	 * @return The order status.
-	 */
-	public int getStatus() {
-		return status;
-	}
-
-	/**
-	 * @return An ArrayList of the order items.
-	 */
-	public ArrayList<Item> getItems() {
-		return items;
-	}
-
-	/**
-	 * @return The user who opened the order.
-	 */
-	public User getUser() {
-		return user;
-	}
-
-	public String toString() {
-		return "Order{" +
-				"department=" + department +
-				", date=" + date +
-				", closureDate=" + closureDate +
-				", status=" + status +
-				", items=" + items +
-				", user=" + user +
-				'}';
-	}
 }
 

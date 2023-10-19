@@ -8,7 +8,7 @@ public class Department{
 	private final double maxValue;
 	private final String name;
 	private final ArrayList<Employee> employees;
-
+	
 	/**
 	 * Constructor method for the departments.
 	 * @param name Name of the department.
@@ -18,6 +18,20 @@ public class Department{
 		this.employees = new ArrayList<>();
 		this.name = name;
 		this.maxValue = maxValue;
+	}
+
+	/**
+	 * @param employee Employee who will be added to the department.
+	 */
+	public void addEmployee(Employee employee){
+		employees.add(employee);
+	}
+
+	/**
+	 * @return An ArrayList of employees in this department.
+	 */
+	public ArrayList<Employee> getEmployees() {
+		return employees;
 	}
 
 	/**
@@ -34,17 +48,4 @@ public class Department{
 		return name;
 	}
 
-	/**
-	 * @return An ArrayList of employees in this department.
-	 */
-	public ArrayList<Employee> getEmployees() {
-		return employees;
-	}
-
-	/**
-	 * @param employee Employee who will be added to the department.
-	 */
-	public void addEmployee(Employee employee){
-		employees.add(employee);
-	}
 }

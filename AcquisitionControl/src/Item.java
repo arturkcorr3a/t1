@@ -26,10 +26,39 @@ public class Item {
 	}
 
 	/**
+	 * @return Item description.
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
 	 * @return The item price.
 	 */
 	public double getPrice() {
 		return price;
+	}
+
+	/**
+	 * @return Quantity of items.
+	 */
+	public int getQuant() {
+		return quant;
+	}
+
+	/**
+	 * @return The total sum of the items price.
+	 */
+	public double getTotal(){
+		total();
+		return this.total;
+	}
+
+	/**
+	 * @param description Item description.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
@@ -42,13 +71,6 @@ public class Item {
 	}
 
 	/**
-	 * @return Quantity of items.
-	 */
-	public int getQuant() {
-		return quant;
-	}
-
-	/**
 	 * @apiNote The total sum is updated automatically.
 	 * @param quant Quantity of items.
 	 */
@@ -58,26 +80,8 @@ public class Item {
 		total();
 	}
 
-	/**
-	 * @return Item description.
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description Item description.
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * @return The total sum of the items price.
-	 */
-	public double getTotal(){
-		total();
-		return this.total;
+	public String toString() {
+		return "Description: " + description + String.format("\nPrice: R$%.2f; Quantity: %d; Total: R$%.2f", price, quant, total);
 	}
 
 	/**
@@ -87,7 +91,4 @@ public class Item {
 		this.total = this.price * this.quant;
 	}
 
-	public String toString() {
-		return "Description: " + description + String.format("\nPrice: R$%.2f; Quantity: %d; Total: R$%.2f", price, quant, total);
-	}
 }

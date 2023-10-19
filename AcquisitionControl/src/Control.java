@@ -99,6 +99,9 @@ public class Control {
 		return null;
 	}
 
+	/**
+	 * @return the 5 departments array
+	 */
 	public Department[] getDepartments(){
 		return departments;
 	}
@@ -128,10 +131,10 @@ public class Control {
 		return employee;
 	}
 
-	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public void newOrder() {
+	public Order newOrder() {
 		Order order = new Order(currentUser);
 		orders.add(order);
+		return order;
 	}
 
 	/**
@@ -141,7 +144,6 @@ public class Control {
 		return currentUser;
 	}
 
-	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public ArrayList<Order> ordersByDate(Calendar min, Calendar max){
 		ArrayList<Order> dOrders = new ArrayList<>();
 		for (int i=0; i<orders.size();i++){
@@ -248,8 +250,6 @@ public class Control {
 		return dOrders;
 	}
 
-	//ver depois de feita a Order qual número é qual status
-	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public ArrayList<Order> openOrders() {
 		ArrayList<Order> openOrders = new ArrayList<>();
 		for (int i=0; i<orders.size(); i++){
@@ -258,14 +258,11 @@ public class Control {
 		return openOrders;
 	}
 	
-	//ver depois de feita a Order qual número é qual status
-	//DESENVOLVER E DOCUMENTAR JAVADOC
-	public void evaluateOrder(int index, int status) {
-			if (status==1) orders.get(index).approve();
-			else if (status==-1) orders.get(index).reject();
+	public void evaluateOrder(Order order, int status) {
+			if (status==1) order.approve();
+			else if (status==-1) order.reject();
 	}
 
-	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public String totalOrderPercentages() {
 		int total = orders.size(), countA=0, countR=0;
 		for(int i=0; i<total;i++){
@@ -278,7 +275,6 @@ public class Control {
 				"\nRejected Orders: [" + countR + "] " + 100*countR/total + "%";
 	}
 
-	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public String last30DaysOpenedOrders() {
 		Calendar date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, -31);
@@ -315,7 +311,6 @@ public class Control {
 				"\nAverage order value: $" + String.format("%.2f",sum/total) ;
 	}
 
-	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public String totalsByStatus() {
 		Calendar date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, -31);
@@ -336,7 +331,6 @@ public class Control {
 				"\nCompleted Orders: $" + String.format("%.2f",sumC);
 	}
 
-	//DESENVOLVER E DOCUMENTAR JAVADOC
 	public String highestValueOpenOrder() {
 		int index=0;
 		for (int i=0; i<orders.size()-1;i++){
