@@ -103,11 +103,11 @@ public class Order {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy, MMM dd, HH:mm:ss");
 		String statusString;
 		switch (status) {
-			case -1: statusString = "Rejected";
-			case 0: statusString = "Open";
-			case 1: statusString = "Approve";
-			case 2: statusString = "Completed";
-			default: statusString = "Error";
+			case -1: statusString = "Rejected"; break;
+			case 0: statusString = "Open"; break;
+			case 1: statusString = "Approve"; break;
+			case 2: statusString = "Completed"; break;
+			default: statusString = "Error"; break;
 		}
 
 		String itemsString = "", closureDateString = "";
