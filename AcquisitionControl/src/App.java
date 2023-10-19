@@ -15,6 +15,30 @@ public class App {
 	public App(){}
 
 	/**
+	 * @clears No
+	 */
+	public ArrayList<Order> approvedOrders(){
+		System.out.println("-----APPROVED ORDERS-----\n");
+
+		if(!(control.getCurrentUser().type())){
+			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
+			return null;
+		}
+
+		ArrayList<Order> orders = control.approvedOrders();
+		if(orders.size() == 0){
+			System.out.println("There are not any open orders.");
+			return null;
+		}
+
+		System.out.println("\n");
+		for(int i=0; i<orders.size(); i++){
+			System.out.println((i+1) + " - " + orders.get(i));
+		}
+		return orders;
+	}
+
+	/**
 	 * Shows the list of departments and asks the user to choose one.
 	 * @return The chosen department amongst the 5.
 	 * @clears No.
@@ -74,6 +98,37 @@ public class App {
 		}
 
 		return initials.toUpperCase();
+	}
+
+	public void cancelOrder(){
+		clear();
+		System.out.println("-----CANCEL ORDER-----");
+
+		ArrayList<Order> orders = control.myOrders();
+		if(orders == null || orders.size() == 0){
+			System.out.println("You do not have any registered orders.");
+			return;
+		}
+
+		System.out.println("\n");
+		for(int i=0; i<orders.size(); i++){
+			System.out.println((i+1) + " - " + orders.get(i));
+		}
+
+		if(orders.size() != 0){
+			System.out.println("\nEnter the index to the order to be canceled: ");
+			int index = (in.nextInt() - 1);
+
+			while(index < 0 || index > orders.size()){
+				System.out.println("ERROR: index is not valid. Try again: ");
+				index = in.nextInt();
+			}
+
+			control.cancelOrder(orders.get(index));
+		}
+			else{
+				System.out.println("UNKNOWN ERROR.");
+			}
 	}
 
 	/**
@@ -486,6 +541,42 @@ public class App {
 		}
 	}
 
+	/**
+	 * Receives order
+	 * @apiNote Only admins have access to that
+	 * @clears Yes
+	 */
+	public void receiveOrder(){
+		clear();
+		System.out.println("-----RECEIVE ORDER-----\n");
+
+		if(!(control.getCurrentUser().type())){
+			System.out.println("\nACCESS DENIED.\nOnly administrators have access to this.");
+			return;
+		}
+
+		ArrayList<Order> orders = approvedOrders();
+		int index;
+		if(orders != null && orders.size() != 0){
+			System.out.println("\nEnter the index to the order to be received: ");
+			index = (in.nextInt() - 1);
+
+			while(index < 0 || index > orders.size()){
+				System.out.println("ERROR: index is not valid. Try again: ");
+				index = in.nextInt();
+			}
+
+			System.out.println("\nOrder received with success.");
+		}
+			else{
+				System.out.println("ERROR: there are not any orders to be received.");	
+				return;
+			}
+
+		in.nextLine();
+		orders.get(index).receive();
+	}
+
 	public void run(){
 		clear();
 		int menu;
@@ -500,6 +591,7 @@ public class App {
 			System.out.println("\t[8] Show all open orders;\n\t[9] Search orders by item description;");
 			System.out.println("\t[10] Search orders by date;\n\t[11] Search orders by requesting user;");
 			System.out.println("\t[12] Show totals by order status;\n\t[13] Show total order percentages;");
+			System.out.println("\t[14] Receive orders;\n\t[15] Cancel order;");
 			menu = in.nextInt();
 			in.nextLine();
 
@@ -518,6 +610,8 @@ public class App {
 				case 11: ordersByUser(); break;
 				case 12: totalsByStatus(); break;
 				case 13: totalOrderPercentages(); break;
+				case 14: receiveOrder(); break;
+				case 15: cancelOrder(); break;
 				default: System.out.println("ERROR: selected option is not valid. Try again.");
 			}
 		} while (menu != 0);

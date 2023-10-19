@@ -374,4 +374,38 @@ public class Control {
 		return orders.get(index).toString();
 	}
 
+	/**
+	 * Method to see all approved orders.
+	 * @return An ArrayList that contains all approved orders.
+	 */
+	public ArrayList<Order> approvedOrders() {
+		ArrayList<Order> openOrders = new ArrayList<>();
+		for (int i=0; i<orders.size(); i++){
+			if (orders.get(i).getStatus()==1) openOrders.add(orders.get(i));
+		}
+		return openOrders;
+	}
+	
+	/**
+	 * 
+	 * @param order the order to be cancelled
+	 * @apiNote only the user who made the order can cancel it
+	 */
+	public void cancelOrder(Order order){
+		if(currentUser == order.getUser()){
+			orders.remove(order);
+		}
+	}
+
+	public ArrayList<Order> myOrders(){
+		
+		ArrayList<Order> myOrders = new ArrayList<Order>();
+		for(int i=0; i<orders.size(); i++){
+			if(orders.get(i).getUser() == currentUser){
+				myOrders.add(orders.get(i));
+			}
+		}
+
+		return myOrders;
+	}
 }
