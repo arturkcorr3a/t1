@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 /**.
  * @author Artur Kalil and Eduardo Martginoni
@@ -107,12 +108,37 @@ public class Order {
 	}
 
 	public String toString() {
-		return "Date: " + date.toString() +
-				"; Closure Date: " + closureDate.toString() +
-				"; Status: " + status +
-				"; Total: R" + items +
-				", user=" + user +
-				'}';
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy, MMM dd, HH:mm:ss");
+		String statusString;
+		switch (status) {
+			case -1: statusString = "Rejected";
+			case 0: statusString = "Open";
+			case 1: statusString = "Approve";
+			case 2: statusString = "Completed";
+			default: statusString = "Error";
+		}
+
+		String itemsString = "", closureDateString = "";
+		if(items.size() == 0) itemsString = "No items.";
+		else{
+			for(int i=0; i<items.size(); i++){
+				itemsString += "\n\t" + items.get(i).toString();
+			}
+		}
+
+		if(closureDate == null){
+			closureDateString = "Order has not been closed."; 
+		}
+			else{
+				closureDateString = format1.format(closureDate.getTime());
+			}
+
+		return "Date: " + format1.format(date.getTime()) + 
+				"; Closure Date: " + closureDateString +
+				"; Status: " + statusString +
+				";\nItems: " + itemsString +
+				";\nUser: " + user.toString() +
+				"; Total: R$" + total();
 	}
 	
 	/**
