@@ -151,7 +151,7 @@ public class Control {
 	public ArrayList<Order> ordersByDate(Calendar min, Calendar max){
 		ArrayList<Order> dOrders = new ArrayList<>();
 		for (int i=0; i<orders.size();i++){
-			if (orders.get(i).getDate().after(min) && orders.get(i).getDate().after(max)){
+			if (orders.get(i).getDate().after(min) && orders.get(i).getDate().before(max)){
 				dOrders.add(orders.get(i));
 			}
 		}

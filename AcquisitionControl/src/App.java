@@ -421,10 +421,10 @@ public class App {
 
 
 		System.out.println("Enter the minimum date:  \n(pattern: dd/mm/yyyy)");
-		String minS = in.next();
+		String minS = in.nextLine();
 
 		System.out.println("Enter the maximum date:  \n(pattern: dd/mm/yyyy)");
-		String maxS = in.next();
+		String maxS = in.nextLine();
 		Calendar min;
 		Calendar max;
 		try {
